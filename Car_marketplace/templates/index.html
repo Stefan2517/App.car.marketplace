@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h1>Masina visurilor tale</h1>
+    <ul class="list-group list-group-flush">
+        {% for masina in masini %}
+            <h2 class="pt-5">{{ masina.1 }}</h2>  <!-- daca pun .1 arata al doilea element din tuplu adica fara primul cu litera mica -->
+                 {% for row in item_list %}
+                    {% if row.marca_masina == masina.0 %} <!-- .0 daca e egala valoarea iterata cu cea curenta se va afisa doar ce urmeaza. marca_masina e din models.py-->
+                        {% if row.stare == 0 %}
+                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 pb-0">
+                             <a href="{% url 'adresa_item' row.pk %}"><h3><del>{{ row.masina }}</del></h3></a>   <!-- pun <h3> pt a ajusta marimea. cu del se ,,taie" masina din browser. cu <a href=""> am inserat link-ul-->
+                             <span class="badge bg-primary rounded-pill">{{ row.pret }}</span> <!-- asta e pt a afisa pretul -->
+                         </li>
+                         <li class="list-group-item pt-0">
+                             <p>{{ row.descriere }}</p> <!-- pun <p> pt ca fiecare descriere sa fie diferita pt fiecare -->
+                         </li>
+                         {% else %}
+                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 pb-0">
+                             <a href="{% url 'adresa_item' row.pk %}"><h3>{{ row.masina }}</h3></a>
+                             <span class="badge bg-primary rounded-pill">{{ row.pret }}</span>
+                         </li>
+                         <li class="list-group-item pt-0">
+                            <p>{{ row.descriere }}</p>
+                         </li>
+                         {% endif %}
+                    {% endif %}
+                 {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
